@@ -1466,12 +1466,44 @@ button {
   display: block;
 }
 
-/* Active Center Card (Physical Playing Card Styling) */
-.deck-card-active {
+/* 3D Stack Container: Underlying Card + Active Card */
+.deck-stack-wrap {
   position: relative;
-  z-index: 10;
   width: min(420px, 92vw);
   height: 580px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Underlying Card (Pre-stacked & expands on drag) */
+.deck-card-underlying {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  border-radius: 28px;
+  border: 1.5px solid rgba(80, 88, 156, 0.14);
+  box-shadow: 0 16px 40px rgba(60, 70, 123, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 26px 26px 20px;
+  z-index: 5;
+  pointer-events: none;
+  user-select: none;
+  overflow: hidden;
+  will-change: transform, opacity;
+}
+
+/* Active Center Card (Physical Playing Card Styling) */
+.deck-card-active {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   background: #ffffff;
   border-radius: 28px;
   border: 1.5px solid rgba(80, 88, 156, 0.16);
@@ -1484,6 +1516,7 @@ button {
   will-change: transform;
   overflow: hidden;
   user-select: none;
+  z-index: 10;
 }
 
 .deck-card-active:active {
@@ -2075,9 +2108,13 @@ button {
     height: 560px;
   }
 
-  .deck-card-active {
+  .deck-stack-wrap {
     width: min(370px, 90vw);
     height: 520px;
+  }
+
+  .deck-card-active,
+  .deck-card-underlying {
     padding: 20px 20px 16px;
   }
 
@@ -2273,9 +2310,13 @@ button {
     height: 510px;
   }
 
-  .deck-card-active {
+  .deck-stack-wrap {
     width: 94vw;
     height: 485px;
+  }
+
+  .deck-card-active,
+  .deck-card-underlying {
     padding: 18px 16px 14px;
   }
 

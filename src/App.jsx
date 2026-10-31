@@ -60,20 +60,6 @@ const projects = [
     glyph: "✢",
     accentKeyword: "strategy",
   },
-  {
-    number: "03",
-    name: "Interaction Lab",
-    category: "Creative Engineering",
-    badge: "Experimental Web & Motion",
-    tagline: "Fluid 3D Physics & Micro-interactions",
-    description:
-      "An ongoing digital playground exploring fluid motion physics, 3D card decks, cursor interactions, and editorial layouts built with modern web technologies.",
-    stack: ["React", "Motion", "Tailwind", "Lenis"],
-    visual: "⚡",
-    className: "project-mint",
-    glyph: "❖",
-    accentKeyword: "motion",
-  },
 ];
 
 // Tech stack skills - strictly preserved
@@ -1268,41 +1254,10 @@ function PlayingCardBack({ glyph = "✦" }) {
   );
 }
 
-// Active Draggable Center Card in 3D Stack
-function ActiveDeckCard({ project, onSwipeLeft, onSwipeRight }) {
-  const dragX = useMotionValue(0);
-  const rotateZ = useTransform(dragX, [-240, 240], [-18, 18]);
-  const rotateY = useTransform(dragX, [-240, 240], [-12, 12]);
-  const [isDragging, setIsDragging] = useState(false);
-
+// Shared Playing Card Face Interior
+function CardContent({ project, isUnderlying = false }) {
   return (
-    <motion.article
-      className="deck-card-active"
-      drag="x"
-      dragConstraints={{ left: 0, right: 0 }}
-      dragElastic={0.68}
-      onDragStart={() => setIsDragging(true)}
-      onDragEnd={(e, info) => {
-        setIsDragging(false);
-        const threshold = 70;
-        const velocity = 260;
-        if (info.offset.x < -threshold || info.velocity.x < -velocity) {
-          onSwipeLeft();
-        } else if (info.offset.x > threshold || info.velocity.x > velocity) {
-          onSwipeRight();
-        }
-      }}
-      style={{
-        x: dragX,
-        rotateZ,
-        rotateY,
-        transformStyle: "preserve-3d",
-      }}
-      initial={{ opacity: 0, scale: 0.92, y: 24 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.88, y: -20, transition: { duration: 0.2 } }}
-      transition={{ type: "spring", stiffness: 360, damping: 26 }}
-    >
+    <>
       {/* Top Playing Card Header */}
       <div className="card-top-row">
         <div className="card-meta">
@@ -1357,13 +1312,95 @@ function ActiveDeckCard({ project, onSwipeLeft, onSwipeRight }) {
             <MousePointer2 size={12} className="drag-icon-anim" /> Drag or swipe
           </span>
           <Magnetic strength={0.35}>
-            <button className="deck-action-btn" aria-label={`View ${project.name}`}>
+            <button
+              className="deck-action-btn"
+              aria-label={`View ${project.name}`}
+              tabIndex={isUnderlying ? -1 : 0}
+            >
               <span>Explore Project</span>
               <ArrowUpRight size={14} className="deck-arrow-icon" />
             </button>
           </Magnetic>
         </div>
       </div>
+    </>
+  );
+}
+
+// Active Draggable Center Card with Directional Physical Fly-Out
+function ActiveDeckCard({ project, swipeDir, dragX, onSwipeLeft, onSwipeRight }) {
+  const rotateZ = useTransform(dragX, [-260, 260], [-22, 22]);
+  const rotateY = useTransform(dragX, [-260, 260], [-14, 14]);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const cardVariants = {
+    enter: (dir) => ({
+      scale: 0.94,
+      y: 16,
+      opacity: 0.85,
+      x: 0,
+      rotateZ: 0,
+      rotateY: 0,
+      zIndex: 10,
+    }),
+    center: {
+      x: 0,
+      y: 0,
+      scale: 1,
+      rotateZ: 0,
+      rotateY: 0,
+      opacity: 1,
+      zIndex: 10,
+      transition: {
+        type: "spring",
+        stiffness: 380,
+        damping: 26,
+      },
+    },
+    exit: (dir) => ({
+      x: dir === "left" ? -880 : 880,
+      rotateZ: dir === "left" ? -35 : 35,
+      rotateY: dir === "left" ? -15 : 15,
+      opacity: 0,
+      scale: 0.9,
+      zIndex: 20,
+      transition: {
+        duration: 0.42,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    }),
+  };
+
+  return (
+    <motion.article
+      className="deck-card-active"
+      custom={swipeDir}
+      variants={cardVariants}
+      initial="enter"
+      animate="center"
+      exit="exit"
+      drag="x"
+      dragConstraints={{ left: 0, right: 0 }}
+      dragElastic={0.82}
+      onDragStart={() => setIsDragging(true)}
+      onDragEnd={(e, info) => {
+        setIsDragging(false);
+        const threshold = 75;
+        const velocity = 280;
+        if (info.offset.x < -threshold || info.velocity.x < -velocity) {
+          onSwipeLeft();
+        } else if (info.offset.x > threshold || info.velocity.x > velocity) {
+          onSwipeRight();
+        }
+      }}
+      style={{
+        x: dragX,
+        rotateZ,
+        rotateY,
+        transformStyle: "preserve-3d",
+      }}
+    >
+      <CardContent project={project} />
     </motion.article>
   );
 }
@@ -1371,10 +1408,38 @@ function ActiveDeckCard({ project, onSwipeLeft, onSwipeRight }) {
 // Interactive 3D Card Deck Component (Matching the video interaction model)
 function ProjectCardDeck() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [swipeDir, setSwipeDir] = useState("left");
+
+  const dragX = useMotionValue(0);
+  const absX = useTransform(dragX, (v) => Math.abs(v));
+  const underScale = useTransform(absX, [0, 220], [0.94, 1.0]);
+  const underY = useTransform(absX, [0, 220], [16, 0]);
+  const underOpacity = useTransform(absX, [0, 220], [0.72, 1.0]);
 
   const prevIndex = (activeIndex - 1 + projects.length) % projects.length;
   const nextIndex = (activeIndex + 1) % projects.length;
+
   const activeProject = projects[activeIndex];
+  const nextProject = projects[nextIndex];
+
+  const handleSwipeLeft = () => {
+    setSwipeDir("left");
+    dragX.set(0);
+    setActiveIndex(nextIndex);
+  };
+
+  const handleSwipeRight = () => {
+    setSwipeDir("right");
+    dragX.set(0);
+    setActiveIndex(prevIndex);
+  };
+
+  const handleSelectPill = (idx) => {
+    if (idx === activeIndex) return;
+    setSwipeDir(idx > activeIndex ? "left" : "right");
+    dragX.set(0);
+    setActiveIndex(idx);
+  };
 
   return (
     <div className="interactive-card-deck">
@@ -1396,13 +1461,13 @@ function ProjectCardDeck() {
           .
         </p>
 
-        {/* 3 Selector Pills from the video */}
+        {/* Selector Pills from the video */}
         <div className="deck-indicators" role="tablist">
           {projects.map((proj, idx) => (
             <button
               key={proj.number}
               className={`deck-pill-btn ${activeIndex === idx ? "active" : ""}`}
-              onClick={() => setActiveIndex(idx)}
+              onClick={() => handleSelectPill(idx)}
               role="tab"
               aria-selected={activeIndex === idx}
               aria-label={`Select ${proj.name}`}
@@ -1426,40 +1491,58 @@ function ProjectCardDeck() {
         {/* Left Fanned Card in Background */}
         <motion.div
           className="deck-card-fanned fanned-left"
-          onClick={() => setActiveIndex(prevIndex)}
+          onClick={handleSwipeRight}
           whileHover={{ y: -10, rotateZ: -16, scale: 0.88 }}
           transition={{ type: "spring", stiffness: 350, damping: 24 }}
-          aria-label={`Switch to previous project: ${projects[prevIndex].name}`}
+          aria-label={`Switch project: ${projects[prevIndex].name}`}
         >
           <PlayingCardBack glyph={projects[prevIndex].glyph} />
           <div className="fanned-peek-pill">
-            <span>PREV · {projects[prevIndex].name}</span>
+            <span>SWITCH · {projects[prevIndex].name}</span>
           </div>
         </motion.div>
 
         {/* Right Fanned Card in Background */}
         <motion.div
           className="deck-card-fanned fanned-right"
-          onClick={() => setActiveIndex(nextIndex)}
+          onClick={handleSwipeLeft}
           whileHover={{ y: -10, rotateZ: 16, scale: 0.88 }}
           transition={{ type: "spring", stiffness: 350, damping: 24 }}
-          aria-label={`Switch to next project: ${projects[nextIndex].name}`}
+          aria-label={`Switch project: ${projects[nextIndex].name}`}
         >
           <PlayingCardBack glyph={projects[nextIndex].glyph} />
           <div className="fanned-peek-pill">
-            <span>NEXT · {projects[nextIndex].name}</span>
+            <span>SWITCH · {projects[nextIndex].name}</span>
           </div>
         </motion.div>
 
-        {/* Center Active Draggable Card */}
-        <AnimatePresence mode="wait">
-          <ActiveDeckCard
-            key={activeProject.number}
-            project={activeProject}
-            onSwipeLeft={() => setActiveIndex(nextIndex)}
-            onSwipeRight={() => setActiveIndex(prevIndex)}
-          />
-        </AnimatePresence>
+        {/* Center Cards Stack: Underlying Card + Active Card */}
+        <div className="deck-stack-wrap">
+          {/* Real underlying card live-reacting to drag */}
+          <motion.div
+            className="deck-card-underlying"
+            style={{
+              scale: underScale,
+              y: underY,
+              opacity: underOpacity,
+            }}
+            aria-hidden="true"
+          >
+            <CardContent project={nextProject} isUnderlying={true} />
+          </motion.div>
+
+          {/* Active Card with directional exit fly-out */}
+          <AnimatePresence mode="popLayout" custom={swipeDir}>
+            <ActiveDeckCard
+              key={activeProject.number}
+              project={activeProject}
+              swipeDir={swipeDir}
+              dragX={dragX}
+              onSwipeLeft={handleSwipeLeft}
+              onSwipeRight={handleSwipeRight}
+            />
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );
