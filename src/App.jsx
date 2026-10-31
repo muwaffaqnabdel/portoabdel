@@ -1397,7 +1397,7 @@ function KineticWorksChapter({ onOpenWorksTab }) {
             Work
           </motion.span>
 
-          {/* Interactive Arrow Button from the video */}
+          {/* Interactive Arrow Button from the video - frameless & refined */}
           <Magnetic strength={0.4}>
             <motion.button
               className="kinetic-arrow-cta"
@@ -1405,7 +1405,7 @@ function KineticWorksChapter({ onOpenWorksTab }) {
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              whileHover={{ scale: 1.08 }}
+              whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.94 }}
               transition={{ duration: 0.7, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
               aria-label="Enter Works Tab to view projects"
@@ -1417,11 +1417,10 @@ function KineticWorksChapter({ onOpenWorksTab }) {
                   xmlns="http://www.w3.org/2000/svg"
                   className="kinetic-arrow-svg"
                 >
-                  <line x1="4" y1="16" x2="62" y2="16" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-                  <path d="M46 5L63 16L46 27" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+                  <line x1="4" y1="16" x2="62" y2="16" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
+                  <path d="M46 5L63 16L46 27" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </span>
-              <span className="arrow-pulse-glow" aria-hidden="true" />
             </motion.button>
           </Magnetic>
         </div>
