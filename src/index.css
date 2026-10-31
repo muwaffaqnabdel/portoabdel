@@ -1253,7 +1253,7 @@ button {
 }
 
 /* =========================================================================
-   PROJECTS SECTION: HEADER & 3D INTERACTIVE CARD DECK (VIDEO MOTION MODEL)
+   PROJECTS SECTION: EDITORIAL KINETIC TYPOGRAPHY CHAPTER & WORKS TAB
    ========================================================================= */
 
 .projects-header-row {
@@ -1265,22 +1265,23 @@ button {
   margin-bottom: 24px;
 }
 
-.project-view-switcher {
+/* Tab Switcher in Section Header */
+.project-tab-switcher {
   display: inline-flex;
   align-items: center;
-  background: rgba(235, 236, 246, 0.7);
+  background: rgba(235, 236, 246, 0.75);
   padding: 4px;
   border-radius: 30px;
-  border: 1px solid rgba(80, 88, 156, 0.14);
+  border: 1px solid rgba(80, 88, 156, 0.16);
   gap: 4px;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
 }
 
-.view-toggle-btn {
+.tab-switch-btn {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  padding: 7px 14px;
+  padding: 8px 16px;
   border-radius: 20px;
   font: 600 10px "Space Grotesk", sans-serif;
   letter-spacing: 0.8px;
@@ -1291,460 +1292,309 @@ button {
   transition: all 0.22s ease;
 }
 
-.view-toggle-btn.active {
+.tab-switch-btn.active {
   background: #ffffff;
   color: var(--indigo);
   box-shadow: 0 4px 14px rgba(60, 70, 123, 0.12);
 }
 
-.view-toggle-btn:hover:not(.active) {
+.tab-switch-btn:hover:not(.active) {
   color: var(--ink);
 }
 
-/* 3D Interactive Card Deck Container */
-.interactive-card-deck {
+/* -------------------------------------------------------------------------
+   1. Kinetic Editorial Typography Chapter (Video Motion Reference)
+   ------------------------------------------------------------------------- */
+.kinetic-chapter-wrap {
   position: relative;
   width: 100%;
-  margin: 15px auto 0;
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px auto 20px;
+  user-select: none;
 }
 
-/* Editorial Subheadline & Pill Indicators */
-.deck-subheadline-wrap {
+.kinetic-chapter-meta {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 30px;
-  gap: 16px;
+  gap: 8px;
+  margin-bottom: 20px;
 }
 
-.deck-subheadline {
-  font: 400 clamp(16px, 2.5vw, 24px) / 1.4 "Space Grotesk", sans-serif;
-  color: #7a7d97;
-  max-width: 620px;
-  margin: 0;
-  letter-spacing: -0.4px;
-}
-
-.deck-kw {
-  font-weight: 700;
-  color: #60637d;
-  transition: color 0.3s ease, text-shadow 0.3s ease;
-}
-
-.deck-kw.kw-active {
-  color: var(--indigo);
-  text-shadow: 0 0 16px rgba(80, 88, 156, 0.25);
-}
-
-.deck-indicators {
+.kinetic-chapter-badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 5px 8px;
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(80, 88, 156, 0.16);
-  border-radius: 24px;
-  box-shadow: 0 6px 18px rgba(60, 70, 123, 0.05);
-  backdrop-filter: blur(10px);
-}
-
-.deck-pill-btn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 18px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font: 600 10px "Space Grotesk", sans-serif;
-  color: #7b7e9a;
-  transition: color 0.22s ease;
-  z-index: 1;
-}
-
-.deck-pill-btn.active {
-  color: var(--indigo);
-}
-
-.deck-pill-highlight {
-  position: absolute;
-  inset: 0;
-  background: #ffffff;
-  border-radius: 18px;
-  box-shadow: 0 3px 10px rgba(80, 88, 156, 0.15);
-  z-index: -1;
-  border: 1px solid rgba(110, 140, 251, 0.35);
-}
-
-.pill-glyph {
-  font-size: 11px;
-}
-
-.pill-num {
-  font-size: 9.5px;
-  letter-spacing: 0.8px;
-}
-
-/* 3D Interactive Stage */
-.interactive-deck-stage {
-  position: relative;
-  height: 640px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  perspective: 1200px;
-  perspective-origin: 50% 50%;
-  margin: 0 auto;
-  user-select: none;
-}
-
-/* Fanned Background Cards (The "Deck" on Table) */
-.deck-card-fanned {
-  position: absolute;
-  bottom: 30px;
-  width: min(340px, 78vw);
-  height: 480px;
-  border-radius: 26px;
-  cursor: pointer;
-  z-index: 3;
-  transition: box-shadow 0.3s ease, filter 0.3s ease;
-  will-change: transform;
-}
-
-.deck-card-fanned.fanned-left {
-  left: calc(50% - 310px);
-  transform: rotate(-24deg) scale(0.85);
-  box-shadow: -12px 20px 45px rgba(60, 70, 123, 0.12);
-}
-
-.deck-card-fanned.fanned-right {
-  right: calc(50% - 310px);
-  transform: rotate(24deg) scale(0.85);
-  box-shadow: 12px 20px 45px rgba(60, 70, 123, 0.12);
-}
-
-.deck-card-fanned:hover {
-  filter: brightness(1.02);
-  box-shadow: 0 24px 50px rgba(80, 88, 156, 0.18);
-}
-
-.fanned-peek-pill {
-  position: absolute;
-  top: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(10px);
-  padding: 5px 12px;
-  border-radius: 20px;
-  border: 1px solid rgba(80, 88, 156, 0.2);
-  font: 700 8px "Space Grotesk", sans-serif;
-  letter-spacing: 1.2px;
-  color: var(--indigo);
-  box-shadow: 0 4px 12px rgba(60, 70, 123, 0.08);
-  white-space: nowrap;
-  pointer-events: none;
-}
-
-/* Playing Card Ornamental Back */
-.playing-card-back {
-  width: 100%;
-  height: 100%;
-  border-radius: 26px;
-  overflow: hidden;
-  background: #fdfdfe;
-  box-shadow: inset 0 0 0 1px rgba(80, 88, 156, 0.14);
-}
-
-.card-back-svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-/* 3D Stack Container: Underlying Card + Active Card */
-.deck-stack-wrap {
-  position: relative;
-  width: min(420px, 92vw);
-  height: 580px;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Underlying Card (Pre-stacked & expands on drag) */
-.deck-card-underlying {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background: #ffffff;
-  border-radius: 28px;
-  border: 1.5px solid rgba(80, 88, 156, 0.14);
-  box-shadow: 0 16px 40px rgba(60, 70, 123, 0.08);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 26px 26px 20px;
-  z-index: 5;
-  pointer-events: none;
-  user-select: none;
-  overflow: hidden;
-  will-change: transform, opacity;
-}
-
-/* Active Center Card (Physical Playing Card Styling) */
-.deck-card-active {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background: #ffffff;
-  border-radius: 28px;
-  border: 1.5px solid rgba(80, 88, 156, 0.16);
-  box-shadow: 0 28px 65px rgba(60, 70, 123, 0.13), 0 4px 16px rgba(60, 70, 123, 0.05);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 26px 26px 20px;
-  cursor: grab;
-  will-change: transform;
-  overflow: hidden;
-  user-select: none;
-  z-index: 10;
-}
-
-.deck-card-active:active {
-  cursor: grabbing;
-}
-
-/* Card Top Playing-Card Meta Row */
-.card-top-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font: 700 9px "Space Grotesk", sans-serif;
-  letter-spacing: 1.4px;
-  text-transform: uppercase;
-  color: var(--indigo);
-  padding-bottom: 12px;
-  border-bottom: 1px dashed rgba(80, 88, 156, 0.18);
-}
-
-.card-meta {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.card-number {
-  font-weight: 800;
-  color: var(--indigo);
-}
-
-.card-dot {
-  color: #aeb9ff;
-}
-
-.card-category {
-  color: #686b89;
-}
-
-.card-suit-glyph {
-  font-size: 15px;
-  color: var(--indigo);
-}
-
-/* Card Body */
-.card-body {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding: 14px 0 10px;
-  justify-content: space-between;
-}
-
-.card-title-wrap {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-
-.card-title {
-  font: 700 25px / 1.15 "Space Grotesk", sans-serif;
-  letter-spacing: -0.8px;
-  margin: 0;
-  color: var(--ink);
-}
-
-.card-badge {
-  font-size: 8px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: var(--indigo);
+  padding: 6px 14px;
   background: rgba(220, 218, 250, 0.45);
-  padding: 4px 9px;
-  border-radius: 12px;
+  border: 1px solid rgba(80, 88, 156, 0.18);
+  border-radius: 20px;
+  font: 700 9.5px "Space Grotesk", sans-serif;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--indigo);
 }
 
-/* Card Visual Frame */
-.card-visual-frame {
-  height: 195px;
+.book-icon-anim {
+  color: var(--blue);
+  animation: bookSlightNudge 3s ease-in-out infinite;
+}
+
+@keyframes bookSlightNudge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+.kinetic-chapter-quote {
+  font: 400 13px / 1.5 "Space Grotesk", sans-serif;
+  color: #7b7e9a;
+  max-width: 520px;
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+/* Massive Editorial Stage */
+.kinetic-editorial-stage {
   width: 100%;
-  border-radius: 18px;
-  background: linear-gradient(135deg, #f5f4fb, #edeafd);
-  border: 1px solid rgba(80, 88, 156, 0.1);
+  max-width: 980px;
+  margin: 25px auto 10px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px, 1.6vw, 20px);
+}
+
+.kinetic-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  padding: 10px;
-  margin: 6px 0 12px;
+  width: 100%;
   position: relative;
-  box-shadow: inset 0 2px 8px rgba(60, 70, 123, 0.04);
 }
 
-.card-preview-img {
-  max-width: 95%;
-  max-height: 175px;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  border-radius: 10px;
-  box-shadow: 0 10px 24px rgba(60, 70, 123, 0.14);
+.row-explore {
+  justify-content: center;
 }
 
-.card-monogram-box {
-  display: flex;
-  flex-direction: column;
+.row-split {
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 4%;
+}
+
+.row-ofmy {
+  justify-content: center;
+  gap: 28px;
+  align-items: center;
+}
+
+.row-work-arrow {
+  justify-content: center;
+  gap: clamp(24px, 4vw, 48px);
+  align-items: center;
+}
+
+/* Kinetic Words */
+.kinetic-word {
+  font: 600 clamp(54px, 10.5vw, 134px) / 0.86 "Space Grotesk", sans-serif;
+  letter-spacing: -0.065em;
+  color: var(--ink);
+  transition: color 0.25s ease;
+  will-change: transform;
+  display: inline-block;
+  cursor: default;
+}
+
+.kinetic-word:hover {
+  color: var(--indigo);
+}
+
+/* Floating Micro Chips between words */
+.kinetic-micro-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(80, 88, 156, 0.22);
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(60, 70, 123, 0.08);
+  font: 700 9px "Space Grotesk", monospace;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--indigo);
+  user-select: none;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.chip-sparkle {
+  color: var(--blue);
+}
+
+/* Electric Arrow CTA Button */
+.kinetic-arrow-cta {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  text-align: center;
-}
-
-.card-monogram-letter {
-  font: 700 68px/1 "Space Grotesk", sans-serif;
-  color: var(--indigo);
-  filter: drop-shadow(0 8px 20px rgba(80, 88, 156, 0.25));
-}
-
-.card-monogram-sub {
-  font-size: 9.5px;
-  letter-spacing: 1px;
-  font-weight: 600;
-  color: #77798b;
-  text-transform: uppercase;
-}
-
-.card-description {
-  font-size: 12px;
-  line-height: 1.65;
-  color: #696b82;
-  margin: 0 0 12px;
-}
-
-.card-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.card-tag-pill {
-  font-size: 8.5px;
-  font-weight: 600;
-  color: #555770;
-  background: #f1f1f7;
-  padding: 4px 10px;
-  border-radius: 16px;
-  letter-spacing: 0.4px;
-}
-
-/* Card Bottom Playing-Card Footer & CTA */
-.card-bottom-row {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.card-inverted-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transform: rotate(180deg);
-  opacity: 0.38;
-  font: 700 8.5px "Space Grotesk", sans-serif;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  color: var(--indigo);
-  padding-bottom: 8px;
-  border-bottom: 1px dashed rgba(80, 88, 156, 0.18);
-  pointer-events: none;
-}
-
-.card-action-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-}
-
-.deck-drag-caption {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 8.5px;
-  letter-spacing: 1.1px;
-  text-transform: uppercase;
-  font-weight: 600;
-  color: #8b8eab;
-}
-
-.drag-icon-anim {
-  color: var(--indigo);
-  animation: dragNudge 2.2s infinite ease-in-out;
-}
-
-@keyframes dragNudge {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(4px); }
-}
-
-.deck-action-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--indigo);
+  width: clamp(96px, 12vw, 140px);
+  height: clamp(52px, 6.5vw, 74px);
+  border-radius: 44px;
+  background: linear-gradient(135deg, #50589c 0%, #6e8cfb 100%);
   color: #ffffff;
-  padding: 10px 18px;
-  border-radius: 24px;
   border: none;
-  font: 700 10.5px "Space Grotesk", sans-serif;
-  letter-spacing: 0.6px;
-  box-shadow: 0 8px 20px rgba(80, 88, 156, 0.28);
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 14px 34px rgba(80, 88, 156, 0.38);
+  transition: box-shadow 0.25s ease, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow: visible;
+  padding: 0;
+}
+
+.kinetic-arrow-cta:hover {
+  box-shadow: 0 18px 46px rgba(110, 140, 251, 0.5);
+}
+
+.arrow-btn-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.22s ease;
+}
+
+.kinetic-arrow-cta:hover .arrow-btn-content {
+  transform: translateX(4px);
+}
+
+.kinetic-arrow-svg {
+  width: 58%;
+  height: auto;
+  stroke: #ffffff;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.arrow-pulse-glow {
+  position: absolute;
+  inset: -4px;
+  border-radius: 48px;
+  border: 1.5px solid rgba(110, 140, 251, 0.55);
+  pointer-events: none;
+  animation: pulseArrow 2.5s infinite ease-out;
+}
+
+@keyframes pulseArrow {
+  0% { transform: scale(0.98); opacity: 0.8; }
+  50% { transform: scale(1.06); opacity: 0; }
+  100% { transform: scale(0.98); opacity: 0; }
+}
+
+.kinetic-bottom-hint {
+  margin-top: 30px;
+}
+
+.hint-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 600 10.5px "Space Grotesk", sans-serif;
+  letter-spacing: 0.8px;
+  color: var(--indigo);
+  background: rgba(235, 236, 248, 0.85);
+  padding: 8px 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(80, 88, 156, 0.14);
   cursor: pointer;
   transition: all 0.22s ease;
 }
 
-.deck-action-btn:hover {
-  background: var(--indigo-dark);
-  box-shadow: 0 10px 26px rgba(60, 70, 123, 0.35);
+.hint-pill:hover {
+  background: rgba(220, 218, 250, 0.6);
+  border-color: var(--indigo);
+  transform: translateY(-1px);
 }
 
-.deck-arrow-icon {
-  transition: transform 0.2s ease;
+/* -------------------------------------------------------------------------
+   2. Works Tab: Projects Gallery Showcase
+   ------------------------------------------------------------------------- */
+.works-gallery-wrap {
+  width: 100%;
+  margin-top: 15px;
 }
 
-.deck-action-btn:hover .deck-arrow-icon {
-  transform: translate(2px, -2px);
+.works-gallery-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 35px;
+  flex-wrap: wrap;
+}
+
+.back-to-chapter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  font: 700 10.5px "Space Grotesk", sans-serif;
+  letter-spacing: 0.8px;
+  color: var(--indigo);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(60, 70, 123, 0.06);
+  transition: all 0.22s ease;
+}
+
+.back-to-chapter-btn:hover {
+  border-color: var(--indigo);
+  box-shadow: 0 6px 18px rgba(80, 88, 156, 0.14);
+  transform: translateX(-2px);
+}
+
+.project-filter-chips {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 20px;
+  background: transparent;
+  border: 1px solid var(--line);
+  font: 600 10px "Space Grotesk", sans-serif;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+
+.filter-chip.active {
+  background: #ffffff;
+  border-color: var(--indigo);
+  color: var(--indigo);
+  box-shadow: 0 4px 12px rgba(60, 70, 123, 0.09);
+  font-weight: 700;
+}
+
+.filter-chip:hover:not(.active) {
+  border-color: #c4c5e6;
+  color: var(--ink);
+}
+
+.chip-glyph {
+  font-size: 11px;
 }
 
 /* Journey Section */
@@ -2104,32 +1954,16 @@ button {
     transform: scale(0.8);
   }
 
-  .interactive-deck-stage {
-    height: 560px;
+  .kinetic-chapter-wrap {
+    min-height: 460px;
   }
 
-  .deck-stack-wrap {
-    width: min(370px, 90vw);
-    height: 520px;
+  .kinetic-word {
+    font-size: clamp(44px, 10vw, 86px);
   }
 
-  .deck-card-active,
-  .deck-card-underlying {
-    padding: 20px 20px 16px;
-  }
-
-  .card-visual-frame {
-    height: 170px;
-  }
-
-  .deck-card-fanned.fanned-left {
-    left: calc(50% - 240px);
-    transform: rotate(-20deg) scale(0.76);
-  }
-
-  .deck-card-fanned.fanned-right {
-    right: calc(50% - 240px);
-    transform: rotate(20deg) scale(0.76);
+  .row-split {
+    padding-inline: 1%;
   }
 }
 
@@ -2306,46 +2140,39 @@ button {
     gap: 16px;
   }
 
-  .interactive-deck-stage {
-    height: 510px;
+  .kinetic-chapter-wrap {
+    min-height: 390px;
+    margin-top: 5px;
   }
 
-  .deck-stack-wrap {
-    width: 94vw;
-    height: 485px;
+  .kinetic-editorial-stage {
+    gap: 8px;
+    margin: 16px auto 6px;
   }
 
-  .deck-card-active,
-  .deck-card-underlying {
-    padding: 18px 16px 14px;
+  .kinetic-word {
+    font-size: clamp(38px, 12vw, 56px);
   }
 
-  .card-title {
-    font-size: 21px;
-  }
-
-  .card-visual-frame {
-    height: 155px;
-    margin: 6px 0 10px;
-  }
-
-  .card-description {
-    font-size: 11px;
-    margin-bottom: 10px;
-    line-height: 1.5;
-  }
-
-  .deck-card-fanned {
-    display: none;
-  }
-
-  .deck-drag-caption {
+  .kinetic-micro-chip {
+    padding: 4px 10px;
     font-size: 7.5px;
   }
 
-  .deck-action-btn {
-    padding: 8px 14px;
-    font-size: 9.5px;
+  .row-work-arrow {
+    gap: 16px;
+  }
+
+  .kinetic-arrow-cta {
+    width: 82px;
+    height: 44px;
+  }
+
+  .works-gallery-topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 24px;
   }
 
   .journey-timeline-container {

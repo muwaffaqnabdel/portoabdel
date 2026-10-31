@@ -22,6 +22,10 @@ import {
   Layers3,
   MousePointer2,
   LayoutGrid,
+  BookOpen,
+  ArrowRight,
+  ArrowLeft,
+  FolderGit2,
 } from "lucide-react";
 
 // Context for global cursor parallax coordinates
@@ -59,6 +63,20 @@ const projects = [
     className: "project-peach",
     glyph: "✢",
     accentKeyword: "strategy",
+  },
+  {
+    number: "03",
+    name: "Interaction Lab",
+    category: "Creative Engineering",
+    badge: "Experimental Web & Motion",
+    tagline: "Fluid 3D Physics & Micro-interactions",
+    description:
+      "An ongoing digital playground exploring fluid motion physics, 3D card decks, cursor interactions, and editorial layouts built with modern web technologies.",
+    stack: ["React", "Motion", "Tailwind", "Lenis"],
+    visual: "⚡",
+    className: "project-mint",
+    glyph: "❖",
+    accentKeyword: "motion",
   },
 ];
 
@@ -169,21 +187,27 @@ function CustomCursor() {
 
     const onMouseOver = (e) => {
       const target = e.target;
-      const deckActive = target.closest(".deck-card-active, .interactive-deck-stage");
-      const deckFanned = target.closest(".deck-card-fanned");
+      const kineticArrow = target.closest(".kinetic-arrow-cta");
+      const kineticWord = target.closest(".kinetic-word");
+      const tabBtn = target.closest(
+        ".tab-switch-btn, .back-to-chapter-btn, .filter-chip, .hint-pill"
+      );
       const projectCard = target.closest(".project-card");
       const floatingBadge = target.closest(".floating-glass-badge");
       const magneticBtn = target.closest(
-        ".button-primary, .contact-button, .nav-cta, .project-arrow, .deck-action-btn, .deck-pill-btn, .view-toggle-btn"
+        ".button-primary, .contact-button, .nav-cta, .project-arrow, .view-toggle-btn"
       );
       const interactiveEl = target.closest("a, button, .skill-card, [role='button']");
 
-      if (deckActive) {
-        setVariant("drag");
-        setCursorText("DRAG");
-      } else if (deckFanned) {
+      if (kineticArrow) {
+        setVariant("button");
+        setCursorText("EXPLORE");
+      } else if (kineticWord) {
         setVariant("hover");
-        setCursorText("FLIP");
+        setCursorText("");
+      } else if (tabBtn) {
+        setVariant("hover");
+        setCursorText("");
       } else if (projectCard) {
         setVariant("project");
         setCursorText("VIEW");
@@ -1254,302 +1278,240 @@ function PlayingCardBack({ glyph = "✦" }) {
   );
 }
 
-// Shared Playing Card Face Interior
-function CardContent({ project, isUnderlying = false }) {
+// Editorial Kinetic Typography Chapter (Matching user's video motion reference)
+function KineticWorksChapter({ onOpenWorksTab }) {
+  const { springX, springY } = useContext(ParallaxContext);
+
+  // Multi-plane mouse parallax
+  const pExploreX = useTransform(springX, (v) => v * -14);
+  const pExploreY = useTransform(springY, (v) => v * -9);
+
+  const pTheX = useTransform(springX, (v) => v * -18);
+  const pTheY = useTransform(springY, (v) => v * 8);
+
+  const pDetailsX = useTransform(springX, (v) => v * 18);
+  const pDetailsY = useTransform(springY, (v) => v * -10);
+
+  const pOfMyX = useTransform(springX, (v) => v * -10);
+  const pOfMyY = useTransform(springY, (v) => v * 12);
+
+  const pWorkX = useTransform(springX, (v) => v * 14);
+  const pWorkY = useTransform(springY, (v) => v * 14);
+
   return (
-    <>
-      {/* Top Playing Card Header */}
-      <div className="card-top-row">
-        <div className="card-meta">
-          <span className="card-number">{project.number}</span>
-          <span className="card-dot">·</span>
-          <span className="card-category">{project.category}</span>
+    <div className="kinetic-chapter-wrap">
+      {/* Top Header metadata from video */}
+      <div className="kinetic-chapter-meta">
+        <div className="kinetic-chapter-badge">
+          <span>Next</span>
+          <BookOpen size={13} className="book-icon-anim" />
+          <span>Chapter / 03</span>
         </div>
-        <span className="card-suit-glyph">{project.glyph}</span>
+        <p className="kinetic-chapter-quote">
+          When everything looks the same, details make the difference. Always.
+        </p>
       </div>
 
-      {/* Main Body Showcase */}
-      <div className="card-body">
-        <div className="card-title-wrap">
-          <h3 className="card-title">{project.name}</h3>
-          <span className="card-badge">{project.badge}</span>
+      {/* Massive Editorial Kinetic Typography Composition */}
+      <div className="kinetic-editorial-stage">
+        {/* Row 1: Explore */}
+        <div className="kinetic-row row-explore">
+          <motion.span
+            className="kinetic-word word-explore"
+            style={{ x: pExploreX, y: pExploreY }}
+            initial={{ opacity: 0, y: 35, filter: "blur(8px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          >
+            Explore
+          </motion.span>
         </div>
 
-        <div className="card-visual-frame">
-          {project.image ? (
-            <img
-              src={project.image}
-              alt={`${project.name} preview`}
-              className="card-preview-img"
-              draggable="false"
-            />
-          ) : (
-            <div className="card-monogram-box">
-              <span className="card-monogram-letter">{project.visual}</span>
-              <span className="card-monogram-sub">{project.tagline}</span>
-            </div>
-          )}
+        {/* Row 2: the  [Interactions]  details */}
+        <div className="kinetic-row row-split">
+          <motion.span
+            className="kinetic-word word-the"
+            style={{ x: pTheX, y: pTheY }}
+            initial={{ opacity: 0, x: -30, filter: "blur(6px)" }}
+            whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.85, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+          >
+            the
+          </motion.span>
+
+          <motion.span
+            className="kinetic-micro-chip chip-interactions"
+            animate={{ y: [0, -6, 0] }}
+            transition={{ duration: 4.6, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <Sparkles size={11} className="chip-sparkle" />
+            <span>Interactions</span>
+          </motion.span>
+
+          <motion.span
+            className="kinetic-word word-details"
+            style={{ x: pDetailsX, y: pDetailsY }}
+            initial={{ opacity: 0, x: 30, filter: "blur(6px)" }}
+            whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.85, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+          >
+            details
+          </motion.span>
         </div>
 
-        <p className="card-description">{project.description}</p>
+        {/* Row 3: of my  [Memorable] */}
+        <div className="kinetic-row row-ofmy">
+          <motion.span
+            className="kinetic-word word-ofmy"
+            style={{ x: pOfMyX, y: pOfMyY }}
+            initial={{ opacity: 0, y: 25, filter: "blur(6px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.85, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
+          >
+            of my
+          </motion.span>
 
-        <div className="card-tags">
-          {project.stack.map((tech) => (
-            <span key={tech} className="card-tag-pill">{tech}</span>
-          ))}
+          <motion.span
+            className="kinetic-micro-chip chip-memorable"
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 5.2, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+          >
+            <span>Memorable</span>
+          </motion.span>
         </div>
-      </div>
 
-      {/* Bottom Footer with Inverted Playing Card Mirror Text & CTA */}
-      <div className="card-bottom-row">
-        <div className="card-inverted-row" aria-hidden="true">
-          <span className="inverted-label">{project.name} · {project.number}</span>
-          <span className="inverted-glyph">{project.glyph}</span>
-        </div>
+        {/* Row 4: Work  +  Magnetic Arrow CTA */}
+        <div className="kinetic-row row-work-arrow">
+          <motion.span
+            className="kinetic-word word-work"
+            style={{ x: pWorkX, y: pWorkY }}
+            initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          >
+            Work
+          </motion.span>
 
-        <div className="card-action-bar">
-          <span className="deck-drag-caption">
-            <MousePointer2 size={12} className="drag-icon-anim" /> Drag or swipe
-          </span>
-          <Magnetic strength={0.35}>
-            <button
-              className="deck-action-btn"
-              aria-label={`View ${project.name}`}
-              tabIndex={isUnderlying ? -1 : 0}
+          {/* Interactive Arrow Button from the video */}
+          <Magnetic strength={0.4}>
+            <motion.button
+              className="kinetic-arrow-cta"
+              onClick={onOpenWorksTab}
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.94 }}
+              transition={{ duration: 0.7, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              aria-label="Enter Works Tab to view projects"
             >
-              <span>Explore Project</span>
-              <ArrowUpRight size={14} className="deck-arrow-icon" />
-            </button>
+              <span className="arrow-btn-content">
+                <svg
+                  viewBox="0 0 72 32"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="kinetic-arrow-svg"
+                >
+                  <line x1="4" y1="16" x2="62" y2="16" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
+                  <path d="M46 5L63 16L46 27" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+              <span className="arrow-pulse-glow" aria-hidden="true" />
+            </motion.button>
           </Magnetic>
         </div>
       </div>
-    </>
+
+      <div className="kinetic-bottom-hint">
+        <span className="hint-pill" onClick={onOpenWorksTab} role="button" tabIndex={0}>
+          Click arrow to open Works Tab →
+        </span>
+      </div>
+    </div>
   );
 }
 
-// Active Draggable Center Card with Directional Physical Fly-Out
-function ActiveDeckCard({ project, swipeDir, dragX, onSwipeLeft, onSwipeRight }) {
-  const rotateZ = useTransform(dragX, [-260, 260], [-22, 22]);
-  const rotateY = useTransform(dragX, [-260, 260], [-14, 14]);
-  const [isDragging, setIsDragging] = useState(false);
+// Works Tab Component: Contains all of Abdel's projects
+function WorksProjectsGallery({ onBackToChapter }) {
+  const [selectedFilter, setSelectedFilter] = useState("all"); // "all", "01", "02"
 
-  const cardVariants = {
-    enter: (dir) => ({
-      scale: 0.94,
-      y: 16,
-      opacity: 0.85,
-      x: 0,
-      rotateZ: 0,
-      rotateY: 0,
-      zIndex: 10,
-    }),
-    center: {
-      x: 0,
-      y: 0,
-      scale: 1,
-      rotateZ: 0,
-      rotateY: 0,
-      opacity: 1,
-      zIndex: 10,
-      transition: {
-        type: "spring",
-        stiffness: 380,
-        damping: 26,
-      },
-    },
-    exit: (dir) => ({
-      x: dir === "left" ? -880 : 880,
-      rotateZ: dir === "left" ? -35 : 35,
-      rotateY: dir === "left" ? -15 : 15,
-      opacity: 0,
-      scale: 0.9,
-      zIndex: 20,
-      transition: {
-        duration: 0.42,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    }),
-  };
+  const filteredProjects =
+    selectedFilter === "all"
+      ? projects
+      : projects.filter((p) => p.number === selectedFilter);
 
   return (
-    <motion.article
-      className="deck-card-active"
-      custom={swipeDir}
-      variants={cardVariants}
-      initial="enter"
-      animate="center"
-      exit="exit"
-      drag="x"
-      dragConstraints={{ left: 0, right: 0 }}
-      dragElastic={0.82}
-      onDragStart={() => setIsDragging(true)}
-      onDragEnd={(e, info) => {
-        setIsDragging(false);
-        const threshold = 75;
-        const velocity = 280;
-        if (info.offset.x < -threshold || info.velocity.x < -velocity) {
-          onSwipeLeft();
-        } else if (info.offset.x > threshold || info.velocity.x > velocity) {
-          onSwipeRight();
-        }
-      }}
-      style={{
-        x: dragX,
-        rotateZ,
-        rotateY,
-        transformStyle: "preserve-3d",
-      }}
-    >
-      <CardContent project={project} />
-    </motion.article>
-  );
-}
+    <div className="works-gallery-wrap">
+      {/* Works Tab Navigation Bar */}
+      <div className="works-gallery-topbar">
+        <button
+          className="back-to-chapter-btn"
+          onClick={onBackToChapter}
+          aria-label="Back to Chapter view"
+        >
+          <ArrowLeft size={14} />
+          <span>Back to Chapter</span>
+        </button>
 
-// Interactive 3D Card Deck Component (Matching the video interaction model)
-function ProjectCardDeck() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [swipeDir, setSwipeDir] = useState("left");
-
-  const dragX = useMotionValue(0);
-  const absX = useTransform(dragX, (v) => Math.abs(v));
-  const underScale = useTransform(absX, [0, 220], [0.94, 1.0]);
-  const underY = useTransform(absX, [0, 220], [16, 0]);
-  const underOpacity = useTransform(absX, [0, 220], [0.72, 1.0]);
-
-  const prevIndex = (activeIndex - 1 + projects.length) % projects.length;
-  const nextIndex = (activeIndex + 1) % projects.length;
-
-  const activeProject = projects[activeIndex];
-  const nextProject = projects[nextIndex];
-
-  const handleSwipeLeft = () => {
-    setSwipeDir("left");
-    dragX.set(0);
-    setActiveIndex(nextIndex);
-  };
-
-  const handleSwipeRight = () => {
-    setSwipeDir("right");
-    dragX.set(0);
-    setActiveIndex(prevIndex);
-  };
-
-  const handleSelectPill = (idx) => {
-    if (idx === activeIndex) return;
-    setSwipeDir(idx > activeIndex ? "left" : "right");
-    dragX.set(0);
-    setActiveIndex(idx);
-  };
-
-  return (
-    <div className="interactive-card-deck">
-      {/* Video-style contextual subheadline */}
-      <div className="deck-subheadline-wrap">
-        <p className="deck-subheadline">
-          Every project crafted with{" "}
-          <span className={`deck-kw ${activeProject.accentKeyword === "strategy" ? "kw-active" : ""}`}>
-            strategy
-          </span>
-          ,{" "}
-          <span className={`deck-kw ${activeProject.accentKeyword === "code" ? "kw-active" : ""}`}>
-            code
-          </span>
-          , and{" "}
-          <span className={`deck-kw ${activeProject.accentKeyword === "motion" ? "kw-active" : ""}`}>
-            motion
-          </span>
-          .
-        </p>
-
-        {/* Selector Pills from the video */}
-        <div className="deck-indicators" role="tablist">
-          {projects.map((proj, idx) => (
+        <div className="project-filter-chips" role="tablist" aria-label="Filter projects">
+          <button
+            className={`filter-chip ${selectedFilter === "all" ? "active" : ""}`}
+            onClick={() => setSelectedFilter("all")}
+          >
+            <span>All Projects ({projects.length})</span>
+          </button>
+          {projects.map((p) => (
             <button
-              key={proj.number}
-              className={`deck-pill-btn ${activeIndex === idx ? "active" : ""}`}
-              onClick={() => handleSelectPill(idx)}
-              role="tab"
-              aria-selected={activeIndex === idx}
-              aria-label={`Select ${proj.name}`}
+              key={p.number}
+              className={`filter-chip ${selectedFilter === p.number ? "active" : ""}`}
+              onClick={() => setSelectedFilter(p.number)}
             >
-              <span className="pill-glyph">{proj.glyph}</span>
-              <span className="pill-num">{proj.number}</span>
-              {activeIndex === idx && (
-                <motion.div
-                  layoutId="activeDeckPill"
-                  className="deck-pill-highlight"
-                  transition={{ type: "spring", stiffness: 380, damping: 28 }}
-                />
-              )}
+              <span className="chip-glyph">{p.glyph}</span>
+              <span>{p.name}</span>
             </button>
           ))}
         </div>
       </div>
 
-      {/* 3D Interactive Card Stage */}
-      <div className="interactive-deck-stage">
-        {/* Left Fanned Card in Background */}
-        <motion.div
-          className="deck-card-fanned fanned-left"
-          onClick={handleSwipeRight}
-          whileHover={{ y: -10, rotateZ: -16, scale: 0.88 }}
-          transition={{ type: "spring", stiffness: 350, damping: 24 }}
-          aria-label={`Switch project: ${projects[prevIndex].name}`}
-        >
-          <PlayingCardBack glyph={projects[prevIndex].glyph} />
-          <div className="fanned-peek-pill">
-            <span>SWITCH · {projects[prevIndex].name}</span>
-          </div>
-        </motion.div>
-
-        {/* Right Fanned Card in Background */}
-        <motion.div
-          className="deck-card-fanned fanned-right"
-          onClick={handleSwipeLeft}
-          whileHover={{ y: -10, rotateZ: 16, scale: 0.88 }}
-          transition={{ type: "spring", stiffness: 350, damping: 24 }}
-          aria-label={`Switch project: ${projects[nextIndex].name}`}
-        >
-          <PlayingCardBack glyph={projects[nextIndex].glyph} />
-          <div className="fanned-peek-pill">
-            <span>SWITCH · {projects[nextIndex].name}</span>
-          </div>
-        </motion.div>
-
-        {/* Center Cards Stack: Underlying Card + Active Card */}
-        <div className="deck-stack-wrap">
-          {/* Real underlying card live-reacting to drag */}
-          <motion.div
-            className="deck-card-underlying"
-            style={{
-              scale: underScale,
-              y: underY,
-              opacity: underOpacity,
-            }}
-            aria-hidden="true"
-          >
-            <CardContent project={nextProject} isUnderlying={true} />
-          </motion.div>
-
-          {/* Active Card with directional exit fly-out */}
-          <AnimatePresence mode="popLayout" custom={swipeDir}>
-            <ActiveDeckCard
-              key={activeProject.number}
-              project={activeProject}
-              swipeDir={swipeDir}
-              dragX={dragX}
-              onSwipeLeft={handleSwipeLeft}
-              onSwipeRight={handleSwipeRight}
-            />
-          </AnimatePresence>
-        </div>
+      {/* Projects Showcase Cards */}
+      <div className="project-list">
+        {filteredProjects.map((project, i) => (
+          <ProjectCard3D
+            key={project.number}
+            project={project}
+            delay={i * 0.12}
+          />
+        ))}
       </div>
     </div>
   );
 }
 
 function Projects() {
-  const [viewMode, setViewMode] = useState("deck"); // "deck" (from video) or "grid"
+  const [activeTab, setActiveTab] = useState("chapter"); // "chapter" (video motion) or "works" (tab works)
+
+  const handleOpenWorks = () => {
+    setActiveTab("works");
+    const el = document.getElementById("works");
+    if (el) {
+      const topOffset = el.getBoundingClientRect().top + window.scrollY - 75;
+      window.scrollTo({ top: topOffset, behavior: "smooth" });
+    }
+  };
+
+  const handleBackToChapter = () => {
+    setActiveTab("chapter");
+    const el = document.getElementById("works");
+    if (el) {
+      const topOffset = el.getBoundingClientRect().top + window.scrollY - 75;
+      window.scrollTo({ top: topOffset, behavior: "smooth" });
+    }
+  };
 
   return (
     <section className="projects section-shell section-pad" id="works">
@@ -1561,40 +1523,51 @@ function Projects() {
           accent="helped bring to life."
         />
 
-        {/* View Mode Switcher */}
-        <div className="project-view-switcher" role="group" aria-label="Layout view switcher">
+        {/* Tab Switcher */}
+        <div className="project-tab-switcher" role="tablist" aria-label="Works section tabs">
           <button
-            className={`view-toggle-btn ${viewMode === "deck" ? "active" : ""}`}
-            onClick={() => setViewMode("deck")}
-            aria-label="Switch to 3D Deck view"
+            className={`tab-switch-btn ${activeTab === "chapter" ? "active" : ""}`}
+            onClick={() => setActiveTab("chapter")}
+            aria-selected={activeTab === "chapter"}
           >
-            <Layers3 size={14} />
-            <span>3D Deck</span>
+            <BookOpen size={13} />
+            <span>Chapter</span>
           </button>
           <button
-            className={`view-toggle-btn ${viewMode === "grid" ? "active" : ""}`}
-            onClick={() => setViewMode("grid")}
-            aria-label="Switch to Grid view"
+            className={`tab-switch-btn ${activeTab === "works" ? "active" : ""}`}
+            onClick={() => setActiveTab("works")}
+            aria-selected={activeTab === "works"}
           >
-            <LayoutGrid size={14} />
-            <span>Grid</span>
+            <FolderGit2 size={13} />
+            <span>Works Tab ({projects.length})</span>
           </button>
         </div>
       </div>
 
-      {viewMode === "deck" ? (
-        <ProjectCardDeck />
-      ) : (
-        <div className="project-list">
-          {projects.map((project, i) => (
-            <ProjectCard3D
-              key={project.number}
-              project={project}
-              delay={i * 0.1}
-            />
-          ))}
-        </div>
-      )}
+      {/* Animated Tab Switch */}
+      <AnimatePresence mode="wait">
+        {activeTab === "chapter" ? (
+          <motion.div
+            key="chapter"
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -22 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <KineticWorksChapter onOpenWorksTab={handleOpenWorks} />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="works"
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -22 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <WorksProjectsGallery onBackToChapter={handleBackToChapter} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
