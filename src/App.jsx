@@ -21,6 +21,7 @@ import {
   Smartphone,
   Layers3,
   MousePointer2,
+  LayoutGrid,
 } from "lucide-react";
 
 // Context for global cursor parallax coordinates
@@ -34,22 +35,44 @@ const projects = [
   {
     number: "01",
     name: "HiringBase",
-    category: "AI-Powered Recruitment Platform",
+    category: "AI-Powered Recruitment",
+    badge: "AI & Web Platform",
+    tagline: "Intelligent Resume Matching & Tracking Platform",
     description:
       "An intelligent resume matching and applicant tracking platform that helps recruiters discover relevant candidates through AI-powered CV analysis and candidate ranking.",
     stack: ["React", "Flutter", "AI Integration"],
     image: "/images/projects/hiringbase.png",
     className: "project-lavender",
+    glyph: "✦",
+    accentKeyword: "code",
   },
   {
     number: "02",
     name: "Bunda Care",
-    category: "Maternal & Child Nutrition Application",
+    category: "Maternal & Child Health",
+    badge: "Mobile Health Application",
+    tagline: "Nutritional Awareness & Food Scanning",
     description:
       "A mobile application designed to support nutritional awareness for mothers and children through intelligent recommendations, food scanning, and digital education.",
     stack: ["Flutter", "UI/UX", "AI Integration"],
     visual: "B",
     className: "project-peach",
+    glyph: "✢",
+    accentKeyword: "strategy",
+  },
+  {
+    number: "03",
+    name: "Interaction Lab",
+    category: "Creative Engineering",
+    badge: "Experimental Web & Motion",
+    tagline: "Fluid 3D Physics & Micro-interactions",
+    description:
+      "An ongoing digital playground exploring fluid motion physics, 3D card decks, cursor interactions, and editorial layouts built with modern web technologies.",
+    stack: ["React", "Motion", "Tailwind", "Lenis"],
+    visual: "⚡",
+    className: "project-mint",
+    glyph: "❖",
+    accentKeyword: "motion",
   },
 ];
 
@@ -160,14 +183,22 @@ function CustomCursor() {
 
     const onMouseOver = (e) => {
       const target = e.target;
+      const deckActive = target.closest(".deck-card-active, .interactive-deck-stage");
+      const deckFanned = target.closest(".deck-card-fanned");
       const projectCard = target.closest(".project-card");
       const floatingBadge = target.closest(".floating-glass-badge");
       const magneticBtn = target.closest(
-        ".button-primary, .contact-button, .nav-cta, .project-arrow"
+        ".button-primary, .contact-button, .nav-cta, .project-arrow, .deck-action-btn, .deck-pill-btn, .view-toggle-btn"
       );
       const interactiveEl = target.closest("a, button, .skill-card, [role='button']");
 
-      if (projectCard) {
+      if (deckActive) {
+        setVariant("drag");
+        setCursorText("DRAG");
+      } else if (deckFanned) {
+        setVariant("hover");
+        setCursorText("FLIP");
+      } else if (projectCard) {
         setVariant("project");
         setCursorText("VIEW");
       } else if (floatingBadge) {
@@ -1147,25 +1178,340 @@ function ProjectCard3D({ project, delay = 0 }) {
   );
 }
 
+// Playing Card Ornamental Geometric Back (matching video's tactile card aesthetic)
+function PlayingCardBack({ glyph = "✦" }) {
+  return (
+    <div className="playing-card-back" aria-hidden="true">
+      <svg
+        viewBox="0 0 340 480"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="card-back-svg"
+      >
+        <rect width="340" height="480" rx="26" fill="#fcfdfe" />
+        {/* Outer border */}
+        <rect
+          x="12"
+          y="12"
+          width="316"
+          height="456"
+          rx="22"
+          stroke="rgba(80, 88, 156, 0.32)"
+          strokeWidth="1.5"
+        />
+        {/* Inset dashed frame */}
+        <rect
+          x="22"
+          y="22"
+          width="296"
+          height="436"
+          rx="18"
+          stroke="rgba(80, 88, 156, 0.2)"
+          strokeWidth="1"
+          strokeDasharray="4 3"
+        />
+        {/* Corner Suit Glyphs */}
+        <text x="38" y="48" fill="#50589c" fontSize="16" fontFamily="Space Grotesk" textAnchor="middle">✦</text>
+        <text x="302" y="48" fill="#50589c" fontSize="16" fontFamily="Space Grotesk" textAnchor="middle">✦</text>
+        <text x="38" y="450" fill="#50589c" fontSize="16" fontFamily="Space Grotesk" textAnchor="middle">✦</text>
+        <text x="302" y="450" fill="#50589c" fontSize="16" fontFamily="Space Grotesk" textAnchor="middle">✦</text>
+
+        {/* Diagonal lattice / ornamental grid lines */}
+        <g stroke="rgba(80, 88, 156, 0.12)" strokeWidth="1">
+          <line x1="30" y1="50" x2="310" y2="430" />
+          <line x1="310" y1="50" x2="30" y2="430" />
+          <line x1="70" y1="30" x2="270" y2="450" />
+          <line x1="270" y1="30" x2="70" y2="450" />
+          <line x1="30" y1="240" x2="310" y2="240" strokeDasharray="3 3" />
+          <line x1="170" y1="30" x2="170" y2="450" strokeDasharray="3 3" />
+        </g>
+
+        {/* Central Geometric Medallion */}
+        <rect
+          x="125"
+          y="195"
+          width="90"
+          height="90"
+          rx="14"
+          transform="rotate(45 170 240)"
+          stroke="#50589c"
+          strokeWidth="1.5"
+          fill="rgba(220, 218, 250, 0.45)"
+        />
+        <circle
+          cx="170"
+          cy="240"
+          r="28"
+          stroke="rgba(110, 140, 251, 0.6)"
+          strokeWidth="1.2"
+          strokeDasharray="4 3"
+        />
+        <text
+          x="170"
+          y="249"
+          fill="#50589c"
+          fontSize="24"
+          fontFamily="Space Grotesk"
+          textAnchor="middle"
+          fontWeight="bold"
+        >
+          {glyph}
+        </text>
+
+        {/* Top and Bottom Medallion Ornaments */}
+        <circle cx="170" cy="110" r="15" stroke="rgba(80, 88, 156, 0.28)" strokeWidth="1" />
+        <text x="170" y="115" fill="#50589c" fontSize="12" fontFamily="Space Grotesk" textAnchor="middle">❖</text>
+        <circle cx="170" cy="370" r="15" stroke="rgba(80, 88, 156, 0.28)" strokeWidth="1" />
+        <text x="170" y="375" fill="#50589c" fontSize="12" fontFamily="Space Grotesk" textAnchor="middle">❖</text>
+      </svg>
+    </div>
+  );
+}
+
+// Active Draggable Center Card in 3D Stack
+function ActiveDeckCard({ project, onSwipeLeft, onSwipeRight }) {
+  const dragX = useMotionValue(0);
+  const rotateZ = useTransform(dragX, [-240, 240], [-18, 18]);
+  const rotateY = useTransform(dragX, [-240, 240], [-12, 12]);
+  const [isDragging, setIsDragging] = useState(false);
+
+  return (
+    <motion.article
+      className="deck-card-active"
+      drag="x"
+      dragConstraints={{ left: 0, right: 0 }}
+      dragElastic={0.68}
+      onDragStart={() => setIsDragging(true)}
+      onDragEnd={(e, info) => {
+        setIsDragging(false);
+        const threshold = 70;
+        const velocity = 260;
+        if (info.offset.x < -threshold || info.velocity.x < -velocity) {
+          onSwipeLeft();
+        } else if (info.offset.x > threshold || info.velocity.x > velocity) {
+          onSwipeRight();
+        }
+      }}
+      style={{
+        x: dragX,
+        rotateZ,
+        rotateY,
+        transformStyle: "preserve-3d",
+      }}
+      initial={{ opacity: 0, scale: 0.92, y: 24 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.88, y: -20, transition: { duration: 0.2 } }}
+      transition={{ type: "spring", stiffness: 360, damping: 26 }}
+    >
+      {/* Top Playing Card Header */}
+      <div className="card-top-row">
+        <div className="card-meta">
+          <span className="card-number">{project.number}</span>
+          <span className="card-dot">·</span>
+          <span className="card-category">{project.category}</span>
+        </div>
+        <span className="card-suit-glyph">{project.glyph}</span>
+      </div>
+
+      {/* Main Body Showcase */}
+      <div className="card-body">
+        <div className="card-title-wrap">
+          <h3 className="card-title">{project.name}</h3>
+          <span className="card-badge">{project.badge}</span>
+        </div>
+
+        <div className="card-visual-frame">
+          {project.image ? (
+            <img
+              src={project.image}
+              alt={`${project.name} preview`}
+              className="card-preview-img"
+              draggable="false"
+            />
+          ) : (
+            <div className="card-monogram-box">
+              <span className="card-monogram-letter">{project.visual}</span>
+              <span className="card-monogram-sub">{project.tagline}</span>
+            </div>
+          )}
+        </div>
+
+        <p className="card-description">{project.description}</p>
+
+        <div className="card-tags">
+          {project.stack.map((tech) => (
+            <span key={tech} className="card-tag-pill">{tech}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* Bottom Footer with Inverted Playing Card Mirror Text & CTA */}
+      <div className="card-bottom-row">
+        <div className="card-inverted-row" aria-hidden="true">
+          <span className="inverted-label">{project.name} · {project.number}</span>
+          <span className="inverted-glyph">{project.glyph}</span>
+        </div>
+
+        <div className="card-action-bar">
+          <span className="deck-drag-caption">
+            <MousePointer2 size={12} className="drag-icon-anim" /> Drag or swipe
+          </span>
+          <Magnetic strength={0.35}>
+            <button className="deck-action-btn" aria-label={`View ${project.name}`}>
+              <span>Explore Project</span>
+              <ArrowUpRight size={14} className="deck-arrow-icon" />
+            </button>
+          </Magnetic>
+        </div>
+      </div>
+    </motion.article>
+  );
+}
+
+// Interactive 3D Card Deck Component (Matching the video interaction model)
+function ProjectCardDeck() {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const prevIndex = (activeIndex - 1 + projects.length) % projects.length;
+  const nextIndex = (activeIndex + 1) % projects.length;
+  const activeProject = projects[activeIndex];
+
+  return (
+    <div className="interactive-card-deck">
+      {/* Video-style contextual subheadline */}
+      <div className="deck-subheadline-wrap">
+        <p className="deck-subheadline">
+          Every project crafted with{" "}
+          <span className={`deck-kw ${activeProject.accentKeyword === "strategy" ? "kw-active" : ""}`}>
+            strategy
+          </span>
+          ,{" "}
+          <span className={`deck-kw ${activeProject.accentKeyword === "code" ? "kw-active" : ""}`}>
+            code
+          </span>
+          , and{" "}
+          <span className={`deck-kw ${activeProject.accentKeyword === "motion" ? "kw-active" : ""}`}>
+            motion
+          </span>
+          .
+        </p>
+
+        {/* 3 Selector Pills from the video */}
+        <div className="deck-indicators" role="tablist">
+          {projects.map((proj, idx) => (
+            <button
+              key={proj.number}
+              className={`deck-pill-btn ${activeIndex === idx ? "active" : ""}`}
+              onClick={() => setActiveIndex(idx)}
+              role="tab"
+              aria-selected={activeIndex === idx}
+              aria-label={`Select ${proj.name}`}
+            >
+              <span className="pill-glyph">{proj.glyph}</span>
+              <span className="pill-num">{proj.number}</span>
+              {activeIndex === idx && (
+                <motion.div
+                  layoutId="activeDeckPill"
+                  className="deck-pill-highlight"
+                  transition={{ type: "spring", stiffness: 380, damping: 28 }}
+                />
+              )}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* 3D Interactive Card Stage */}
+      <div className="interactive-deck-stage">
+        {/* Left Fanned Card in Background */}
+        <motion.div
+          className="deck-card-fanned fanned-left"
+          onClick={() => setActiveIndex(prevIndex)}
+          whileHover={{ y: -10, rotateZ: -16, scale: 0.88 }}
+          transition={{ type: "spring", stiffness: 350, damping: 24 }}
+          aria-label={`Switch to previous project: ${projects[prevIndex].name}`}
+        >
+          <PlayingCardBack glyph={projects[prevIndex].glyph} />
+          <div className="fanned-peek-pill">
+            <span>PREV · {projects[prevIndex].name}</span>
+          </div>
+        </motion.div>
+
+        {/* Right Fanned Card in Background */}
+        <motion.div
+          className="deck-card-fanned fanned-right"
+          onClick={() => setActiveIndex(nextIndex)}
+          whileHover={{ y: -10, rotateZ: 16, scale: 0.88 }}
+          transition={{ type: "spring", stiffness: 350, damping: 24 }}
+          aria-label={`Switch to next project: ${projects[nextIndex].name}`}
+        >
+          <PlayingCardBack glyph={projects[nextIndex].glyph} />
+          <div className="fanned-peek-pill">
+            <span>NEXT · {projects[nextIndex].name}</span>
+          </div>
+        </motion.div>
+
+        {/* Center Active Draggable Card */}
+        <AnimatePresence mode="wait">
+          <ActiveDeckCard
+            key={activeProject.number}
+            project={activeProject}
+            onSwipeLeft={() => setActiveIndex(nextIndex)}
+            onSwipeRight={() => setActiveIndex(prevIndex)}
+          />
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
 function Projects() {
+  const [viewMode, setViewMode] = useState("deck"); // "deck" (from video) or "grid"
+
   return (
     <section className="projects section-shell section-pad" id="works">
-      <SectionHeading
-        index="03"
-        label="SELECTED WORKS"
-        title="A few things I've"
-        accent="helped bring to life."
-      />
+      <div className="projects-header-row">
+        <SectionHeading
+          index="03"
+          label="SELECTED WORKS"
+          title="A few things I've"
+          accent="helped bring to life."
+        />
 
-      <div className="project-list">
-        {projects.map((project, i) => (
-          <ProjectCard3D
-            key={project.number}
-            project={project}
-            delay={i * 0.1}
-          />
-        ))}
+        {/* View Mode Switcher */}
+        <div className="project-view-switcher" role="group" aria-label="Layout view switcher">
+          <button
+            className={`view-toggle-btn ${viewMode === "deck" ? "active" : ""}`}
+            onClick={() => setViewMode("deck")}
+            aria-label="Switch to 3D Deck view"
+          >
+            <Layers3 size={14} />
+            <span>3D Deck</span>
+          </button>
+          <button
+            className={`view-toggle-btn ${viewMode === "grid" ? "active" : ""}`}
+            onClick={() => setViewMode("grid")}
+            aria-label="Switch to Grid view"
+          >
+            <LayoutGrid size={14} />
+            <span>Grid</span>
+          </button>
+        </div>
       </div>
+
+      {viewMode === "deck" ? (
+        <ProjectCardDeck />
+      ) : (
+        <div className="project-list">
+          {projects.map((project, i) => (
+            <ProjectCard3D
+              key={project.number}
+              project={project}
+              delay={i * 0.1}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

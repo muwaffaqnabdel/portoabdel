@@ -150,6 +150,15 @@ button {
   box-shadow: 0 12px 30px rgba(60, 70, 123, 0.35);
 }
 
+.cursor-drag {
+  width: 68px;
+  height: 68px;
+  border: 1.5px solid rgba(110, 140, 251, 0.85);
+  background: rgba(80, 88, 156, 0.92);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 14px 34px rgba(80, 88, 156, 0.38);
+}
+
 .cursor-text {
   color: #fff;
   font: 700 9.5px "Space Grotesk", sans-serif;
@@ -1243,6 +1252,468 @@ button {
   transform: translate(2.5px, -2.5px);
 }
 
+/* =========================================================================
+   PROJECTS SECTION: HEADER & 3D INTERACTIVE CARD DECK (VIDEO MOTION MODEL)
+   ========================================================================= */
+
+.projects-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.project-view-switcher {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(235, 236, 246, 0.7);
+  padding: 4px;
+  border-radius: 30px;
+  border: 1px solid rgba(80, 88, 156, 0.14);
+  gap: 4px;
+  backdrop-filter: blur(8px);
+}
+
+.view-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border-radius: 20px;
+  font: 600 10px "Space Grotesk", sans-serif;
+  letter-spacing: 0.8px;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+
+.view-toggle-btn.active {
+  background: #ffffff;
+  color: var(--indigo);
+  box-shadow: 0 4px 14px rgba(60, 70, 123, 0.12);
+}
+
+.view-toggle-btn:hover:not(.active) {
+  color: var(--ink);
+}
+
+/* 3D Interactive Card Deck Container */
+.interactive-card-deck {
+  position: relative;
+  width: 100%;
+  margin: 15px auto 0;
+}
+
+/* Editorial Subheadline & Pill Indicators */
+.deck-subheadline-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 30px;
+  gap: 16px;
+}
+
+.deck-subheadline {
+  font: 400 clamp(16px, 2.5vw, 24px) / 1.4 "Space Grotesk", sans-serif;
+  color: #7a7d97;
+  max-width: 620px;
+  margin: 0;
+  letter-spacing: -0.4px;
+}
+
+.deck-kw {
+  font-weight: 700;
+  color: #60637d;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.deck-kw.kw-active {
+  color: var(--indigo);
+  text-shadow: 0 0 16px rgba(80, 88, 156, 0.25);
+}
+
+.deck-indicators {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(80, 88, 156, 0.16);
+  border-radius: 24px;
+  box-shadow: 0 6px 18px rgba(60, 70, 123, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.deck-pill-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font: 600 10px "Space Grotesk", sans-serif;
+  color: #7b7e9a;
+  transition: color 0.22s ease;
+  z-index: 1;
+}
+
+.deck-pill-btn.active {
+  color: var(--indigo);
+}
+
+.deck-pill-highlight {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 3px 10px rgba(80, 88, 156, 0.15);
+  z-index: -1;
+  border: 1px solid rgba(110, 140, 251, 0.35);
+}
+
+.pill-glyph {
+  font-size: 11px;
+}
+
+.pill-num {
+  font-size: 9.5px;
+  letter-spacing: 0.8px;
+}
+
+/* 3D Interactive Stage */
+.interactive-deck-stage {
+  position: relative;
+  height: 640px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+  margin: 0 auto;
+  user-select: none;
+}
+
+/* Fanned Background Cards (The "Deck" on Table) */
+.deck-card-fanned {
+  position: absolute;
+  bottom: 30px;
+  width: min(340px, 78vw);
+  height: 480px;
+  border-radius: 26px;
+  cursor: pointer;
+  z-index: 3;
+  transition: box-shadow 0.3s ease, filter 0.3s ease;
+  will-change: transform;
+}
+
+.deck-card-fanned.fanned-left {
+  left: calc(50% - 310px);
+  transform: rotate(-24deg) scale(0.85);
+  box-shadow: -12px 20px 45px rgba(60, 70, 123, 0.12);
+}
+
+.deck-card-fanned.fanned-right {
+  right: calc(50% - 310px);
+  transform: rotate(24deg) scale(0.85);
+  box-shadow: 12px 20px 45px rgba(60, 70, 123, 0.12);
+}
+
+.deck-card-fanned:hover {
+  filter: brightness(1.02);
+  box-shadow: 0 24px 50px rgba(80, 88, 156, 0.18);
+}
+
+.fanned-peek-pill {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(80, 88, 156, 0.2);
+  font: 700 8px "Space Grotesk", sans-serif;
+  letter-spacing: 1.2px;
+  color: var(--indigo);
+  box-shadow: 0 4px 12px rgba(60, 70, 123, 0.08);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Playing Card Ornamental Back */
+.playing-card-back {
+  width: 100%;
+  height: 100%;
+  border-radius: 26px;
+  overflow: hidden;
+  background: #fdfdfe;
+  box-shadow: inset 0 0 0 1px rgba(80, 88, 156, 0.14);
+}
+
+.card-back-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Active Center Card (Physical Playing Card Styling) */
+.deck-card-active {
+  position: relative;
+  z-index: 10;
+  width: min(420px, 92vw);
+  height: 580px;
+  background: #ffffff;
+  border-radius: 28px;
+  border: 1.5px solid rgba(80, 88, 156, 0.16);
+  box-shadow: 0 28px 65px rgba(60, 70, 123, 0.13), 0 4px 16px rgba(60, 70, 123, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 26px 26px 20px;
+  cursor: grab;
+  will-change: transform;
+  overflow: hidden;
+  user-select: none;
+}
+
+.deck-card-active:active {
+  cursor: grabbing;
+}
+
+/* Card Top Playing-Card Meta Row */
+.card-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font: 700 9px "Space Grotesk", sans-serif;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--indigo);
+  padding-bottom: 12px;
+  border-bottom: 1px dashed rgba(80, 88, 156, 0.18);
+}
+
+.card-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-number {
+  font-weight: 800;
+  color: var(--indigo);
+}
+
+.card-dot {
+  color: #aeb9ff;
+}
+
+.card-category {
+  color: #686b89;
+}
+
+.card-suit-glyph {
+  font-size: 15px;
+  color: var(--indigo);
+}
+
+/* Card Body */
+.card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 14px 0 10px;
+  justify-content: space-between;
+}
+
+.card-title-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.card-title {
+  font: 700 25px / 1.15 "Space Grotesk", sans-serif;
+  letter-spacing: -0.8px;
+  margin: 0;
+  color: var(--ink);
+}
+
+.card-badge {
+  font-size: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--indigo);
+  background: rgba(220, 218, 250, 0.45);
+  padding: 4px 9px;
+  border-radius: 12px;
+}
+
+/* Card Visual Frame */
+.card-visual-frame {
+  height: 195px;
+  width: 100%;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #f5f4fb, #edeafd);
+  border: 1px solid rgba(80, 88, 156, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 10px;
+  margin: 6px 0 12px;
+  position: relative;
+  box-shadow: inset 0 2px 8px rgba(60, 70, 123, 0.04);
+}
+
+.card-preview-img {
+  max-width: 95%;
+  max-height: 175px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 10px 24px rgba(60, 70, 123, 0.14);
+}
+
+.card-monogram-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.card-monogram-letter {
+  font: 700 68px/1 "Space Grotesk", sans-serif;
+  color: var(--indigo);
+  filter: drop-shadow(0 8px 20px rgba(80, 88, 156, 0.25));
+}
+
+.card-monogram-sub {
+  font-size: 9.5px;
+  letter-spacing: 1px;
+  font-weight: 600;
+  color: #77798b;
+  text-transform: uppercase;
+}
+
+.card-description {
+  font-size: 12px;
+  line-height: 1.65;
+  color: #696b82;
+  margin: 0 0 12px;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.card-tag-pill {
+  font-size: 8.5px;
+  font-weight: 600;
+  color: #555770;
+  background: #f1f1f7;
+  padding: 4px 10px;
+  border-radius: 16px;
+  letter-spacing: 0.4px;
+}
+
+/* Card Bottom Playing-Card Footer & CTA */
+.card-bottom-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card-inverted-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transform: rotate(180deg);
+  opacity: 0.38;
+  font: 700 8.5px "Space Grotesk", sans-serif;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--indigo);
+  padding-bottom: 8px;
+  border-bottom: 1px dashed rgba(80, 88, 156, 0.18);
+  pointer-events: none;
+}
+
+.card-action-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.deck-drag-caption {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 8.5px;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #8b8eab;
+}
+
+.drag-icon-anim {
+  color: var(--indigo);
+  animation: dragNudge 2.2s infinite ease-in-out;
+}
+
+@keyframes dragNudge {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(4px); }
+}
+
+.deck-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--indigo);
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: 24px;
+  border: none;
+  font: 700 10.5px "Space Grotesk", sans-serif;
+  letter-spacing: 0.6px;
+  box-shadow: 0 8px 20px rgba(80, 88, 156, 0.28);
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+
+.deck-action-btn:hover {
+  background: var(--indigo-dark);
+  box-shadow: 0 10px 26px rgba(60, 70, 123, 0.35);
+}
+
+.deck-arrow-icon {
+  transition: transform 0.2s ease;
+}
+
+.deck-action-btn:hover .deck-arrow-icon {
+  transform: translate(2px, -2px);
+}
+
 /* Journey Section */
 .journey {
   padding-top: 90px;
@@ -1599,6 +2070,30 @@ button {
   .floating-orbital-container {
     transform: scale(0.8);
   }
+
+  .interactive-deck-stage {
+    height: 560px;
+  }
+
+  .deck-card-active {
+    width: min(370px, 90vw);
+    height: 520px;
+    padding: 20px 20px 16px;
+  }
+
+  .card-visual-frame {
+    height: 170px;
+  }
+
+  .deck-card-fanned.fanned-left {
+    left: calc(50% - 240px);
+    transform: rotate(-20deg) scale(0.76);
+  }
+
+  .deck-card-fanned.fanned-right {
+    right: calc(50% - 240px);
+    transform: rotate(20deg) scale(0.76);
+  }
 }
 
 @media (max-width: 520px) {
@@ -1766,6 +2261,50 @@ button {
 
   .floating-orbital-container {
     display: none;
+  }
+
+  .projects-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .interactive-deck-stage {
+    height: 510px;
+  }
+
+  .deck-card-active {
+    width: 94vw;
+    height: 485px;
+    padding: 18px 16px 14px;
+  }
+
+  .card-title {
+    font-size: 21px;
+  }
+
+  .card-visual-frame {
+    height: 155px;
+    margin: 6px 0 10px;
+  }
+
+  .card-description {
+    font-size: 11px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .deck-card-fanned {
+    display: none;
+  }
+
+  .deck-drag-caption {
+    font-size: 7.5px;
+  }
+
+  .deck-action-btn {
+    padding: 8px 14px;
+    font-size: 9.5px;
   }
 
   .journey-timeline-container {
