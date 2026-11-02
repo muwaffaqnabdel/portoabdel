@@ -325,11 +325,10 @@ function MaskedHeading({ title, accent, className = "" }) {
   );
 }
 
-function SectionHeading({ index, label, title, accent }) {
+function SectionHeading({ label, title, accent }) {
   return (
     <div className="section-heading">
       <div className="section-index">
-        <span>{index}</span>
         <span className="index-rule" />
         <span>{label}</span>
       </div>
@@ -589,12 +588,28 @@ function TransitionZoneWorksToJourney() {
    HEADER & NAVIGATION
    ========================================================================= */
 
+function SpotifyIcon({ size = 14, className = "" }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.498 17.305c-.215.353-.674.466-1.026.251-2.812-1.718-6.352-2.106-10.522-1.152-.401.092-.799-.158-.891-.559-.092-.402.158-.799.559-.891 4.568-1.044 8.486-.604 11.629 1.325.353.215.466.674.251 1.026zm1.467-3.264c-.27.44-.847.579-1.287.309-3.218-1.977-8.125-2.548-11.932-1.393-.497.151-1.025-.136-1.176-.633-.151-.497.136-1.025.633-1.176 4.356-1.322 9.774-.683 13.453 1.579.44.27.579.847.309 1.287zm.126-3.41c-3.859-2.291-10.228-2.502-13.914-1.383-.591.179-1.218-.16-1.397-.751-.179-.591.16-1.218.751-1.397 4.237-1.287 11.274-1.042 15.706 1.589.531.315.706 1.004.391 1.535-.315.531-1.004.706-1.537.391z" />
+    </svg>
+  );
+}
+
 function Header({ activeSection }) {
   const [open, setOpen] = useState(false);
   const links = [
     ["About", "#about", "about"],
     ["Works", "#works", "works"],
     ["Journey", "#journey", "journey"],
+    ["Spotify", "#spotify", "spotify"],
     ["Contact", "#contact", "contact"],
   ];
 
@@ -624,6 +639,9 @@ function Header({ activeSection }) {
               className={`nav-link-item ${isActive ? "active" : ""}`}
               onClick={(e) => handleNavClick(e, href)}
             >
+              {id === "spotify" && (
+                <SpotifyIcon size={13} className="nav-spotify-icon" />
+              )}
               <span>{label}</span>
               <motion.span
                 className="nav-hover-bar"
@@ -664,14 +682,17 @@ function Header({ activeSection }) {
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="mobile-nav-inner">
-              {links.map(([label, href]) => (
+              {links.map(([label, href, id]) => (
                 <a
                   key={label}
                   href={href}
                   className="mobile-nav-link"
                   onClick={(e) => handleNavClick(e, href)}
                 >
-                  {label}
+                  {id === "spotify" && (
+                    <SpotifyIcon size={16} className="nav-spotify-icon" />
+                  )}
+                  <span>{label}</span>
                 </a>
               ))}
               <a
@@ -799,7 +820,7 @@ function Hero() {
                 animate={{ y: 0 }}
                 transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
               >
-                I build
+                Welcome to
               </motion.span>
             </div>
             <div className="heading-line accent-line">
@@ -808,7 +829,7 @@ function Hero() {
                 animate={{ y: 0 }}
                 transition={{ duration: 0.9, delay: 0.38, ease: [0.22, 1, 0.36, 1] }}
               >
-                digital
+                my digital
               </motion.span>
             </div>
             <div className="heading-line">
@@ -817,7 +838,7 @@ function Hero() {
                 animate={{ y: 0 }}
                 transition={{ duration: 0.9, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
               >
-                experiences<span className="period">.</span>
+                space<span className="period">.</span>
               </motion.span>
             </div>
           </div>
@@ -929,7 +950,7 @@ function Hero() {
       <div className="hero-bottom">
         <span>SCROLL TO EXPLORE</span>
         <span className="scroll-line" />
-        <span>01 — 06</span>
+        <span>EXPLORE</span>
       </div>
     </section>
   );
@@ -956,8 +977,7 @@ function About() {
   return (
     <section className="about section-shell section-pad" id="about">
       <SectionHeading
-        index="01"
-        label="A LITTLE INTRODUCTION"
+        label="ABOUT ME"
         title="Curious by nature."
         accent="Developer by choice."
       />
@@ -999,7 +1019,6 @@ function Expertise() {
   return (
     <section className="expertise section-shell section-pad">
       <SectionHeading
-        index="02"
         label="WHAT I WORK WITH"
         title="Tools for turning"
         accent="ideas into reality."
@@ -1305,7 +1324,7 @@ function KineticWorksChapter({ onOpenWorksTab }) {
         <div className="kinetic-chapter-badge">
           <span>Next</span>
           <BookOpen size={13} className="book-icon-anim" />
-          <span>Chapter / 03</span>
+          <span>Chapter</span>
         </div>
         <p className="kinetic-chapter-quote">
           When everything looks the same, details make the difference. Always.
@@ -1516,7 +1535,6 @@ function Projects() {
     <section className="projects section-shell section-pad" id="works">
       <div className="projects-header-row">
         <SectionHeading
-          index="03"
           label="SELECTED WORKS"
           title="A few things I've"
           accent="helped bring to life."
@@ -1579,7 +1597,6 @@ function Journey() {
   return (
     <section className="journey section-shell section-pad" id="journey">
       <SectionHeading
-        index="04"
         label="THE JOURNEY SO FAR"
         title="Learning, building,"
         accent="and growing."
@@ -1620,6 +1637,126 @@ function Journey() {
             <p>Building interfaces, exploring product experiences, and learning through real projects.</p>
           </div>
           <span className="journey-kind">FOCUS</span>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* =========================================================================
+   SPOTIFY SECTION (05 — MY SOUNDTRACK)
+   ========================================================================= */
+
+function Spotify() {
+  return (
+    <section className="spotify-section section-shell section-pad" id="spotify">
+      {/* Subtle lavender ambient glow */}
+      <div className="spotify-bg-glow" aria-hidden="true" />
+
+      <div className="spotify-grid">
+        {/* Left Column: Heading & Context */}
+        <motion.div
+          className="spotify-col-left"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className="section-index">
+            <span className="index-rule" />
+            <span>MY SOUNDTRACK</span>
+          </div>
+
+          <h2 className="spotify-title">
+            <span className="spotify-title-line">A little soundtrack</span>
+            <span className="spotify-title-line">
+              <em>to my life.</em>
+            </span>
+          </h2>
+
+          <p className="spotify-subtitle">
+            Some songs that keep me inspired while creating.
+          </p>
+
+          <div className="spotify-meta-strip">
+            <div className="spotify-status-tag">
+              <span className="spotify-pulse-dot" aria-hidden="true" />
+              <span>CURRENT ROTATION</span>
+            </div>
+
+            <Magnetic strength={0.25}>
+              <a
+                href="https://open.spotify.com/track/7EPJbZ3UygY2fqhOdqOSaT"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="spotify-listen-link"
+                aria-label="Listen on Spotify (opens in new tab)"
+              >
+                <SpotifyIcon size={14} className="spotify-link-spotify-icon" />
+                <span>Listen on Spotify</span>
+                <ArrowUpRight size={14} className="spotify-link-arrow" />
+              </a>
+            </Magnetic>
+          </div>
+        </motion.div>
+
+        {/* Right Column: Spotify Embed Player Card */}
+        <motion.div
+          className="spotify-col-right"
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 0.85, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {/* Subtle decorative lavender abstract geometry */}
+          <div className="spotify-decorative-ring" aria-hidden="true">
+            <div className="spotify-ring-outer" />
+            <div className="spotify-ring-inner" />
+          </div>
+
+          <div className="spotify-player-card">
+            <div className="spotify-player-header">
+              <div className="spotify-player-badge">
+                <span className="spotify-badge-icon-wrap">
+                  <SpotifyIcon size={14} />
+                </span>
+                <span className="spotify-badge-text">SPOTIFY EMBED</span>
+              </div>
+              <div className="spotify-soundwave-bars" aria-hidden="true">
+                <span className="sw-bar b1" />
+                <span className="sw-bar b2" />
+                <span className="sw-bar b3" />
+                <span className="sw-bar b4" />
+              </div>
+            </div>
+
+            <div className="spotify-iframe-container">
+              <iframe
+                src="https://open.spotify.com/embed/track/7EPJbZ3UygY2fqhOdqOSaT"
+                width="100%"
+                height="152"
+                frameBorder="0"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+                title="Abdell Muwaffaq N. - Spotify Soundtrack"
+                className="spotify-iframe"
+              />
+            </div>
+
+            <div className="spotify-player-footer">
+              <span className="spotify-footer-text">
+                Personal Pick · Play directly from browser
+              </span>
+              <a
+                href="https://open.spotify.com/track/7EPJbZ3UygY2fqhOdqOSaT"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="spotify-footer-link"
+              >
+                Open in App <ArrowUpRight size={12} />
+              </a>
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>
@@ -1686,7 +1823,7 @@ function Contact() {
       <Magnetic strength={0.38}>
         <motion.a
           className="contact-button"
-          href="mailto:hello@example.com"
+          href="mailto:abdellmuwaffaq@gmail.com"
           whileTap={{ scale: 0.98 }}
         >
           Start a conversation <ArrowUpRight size={20} className="contact-btn-arrow" />
@@ -1698,7 +1835,7 @@ function Contact() {
           <span className="contact-label">FIND ME HERE</span>
           <div className="social-links">
             <Magnetic strength={0.25}>
-              <a href="https://github.com/" target="_blank" rel="noreferrer">
+              <a href="https://github.com/muwaffaqnabdel" target="_blank" rel="noreferrer">
                 <Github size={17} /> GitHub <ArrowUpRight size={13} />
               </a>
             </Magnetic>
@@ -1708,7 +1845,7 @@ function Contact() {
               </a>
             </Magnetic>
             <Magnetic strength={0.25}>
-              <a href="mailto:hello@example.com">
+              <a href="mailto:abdellmuwaffaq@gmail.com">
                 <Mail size={17} /> Email <ArrowUpRight size={13} />
               </a>
             </Magnetic>
@@ -1810,7 +1947,7 @@ export default function App() {
 
   // Active section observer for navigation indicator
   useEffect(() => {
-    const sectionIds = ["about", "works", "journey", "contact"];
+    const sectionIds = ["about", "works", "journey", "spotify", "contact"];
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -1846,6 +1983,7 @@ export default function App() {
         <Projects />
         <TransitionZoneWorksToJourney />
         <Journey />
+        <Spotify />
         <Contact />
       </main>
       <Footer />

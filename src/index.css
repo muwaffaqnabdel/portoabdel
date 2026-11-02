@@ -217,16 +217,31 @@ button {
 .desktop-nav {
   display: flex;
   align-items: center;
-  gap: 34px;
+  gap: clamp(18px, 2.2vw, 32px);
   font-size: 13px;
   color: #65677a;
 }
 
 .nav-link-item {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   padding: 8px 2px;
   font-weight: 500;
   transition: color 0.22s ease;
+}
+
+.nav-spotify-icon {
+  flex-shrink: 0;
+  color: currentColor;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.nav-link-item:hover .nav-spotify-icon,
+.nav-link-item.active .nav-spotify-icon {
+  color: #1db954;
+  transform: scale(1.1);
 }
 
 .nav-link-item:hover,
@@ -314,6 +329,9 @@ button {
   color: var(--ink);
   padding: 8px 0;
   border-bottom: 1px solid rgba(32, 34, 54, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .mobile-cta {
@@ -328,12 +346,12 @@ button {
 }
 
 .section-pad {
-  padding-top: 130px;
-  padding-bottom: 120px;
+  padding-top: 85px;
+  padding-bottom: 75px;
 }
 
 .section-heading {
-  margin-bottom: 60px;
+  margin-bottom: 34px;
   position: relative;
   z-index: 2;
 }
@@ -342,21 +360,21 @@ button {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 22px;
-  font-size: 9px;
-  letter-spacing: 1.8px;
-  color: var(--muted);
-  font-weight: 700;
-}
-
-.section-index span:first-child {
+  margin-bottom: 14px;
+  font-size: 9.5px;
+  letter-spacing: 2px;
   color: var(--indigo);
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .index-rule {
-  width: 42px;
-  height: 1px;
-  background: #c9cad6;
+  width: 38px;
+  height: 1.5px;
+  background: var(--indigo);
+  opacity: 0.65;
+  flex-shrink: 0;
+  border-radius: 1px;
 }
 
 .section-heading h2 {
@@ -788,25 +806,25 @@ button {
   position: relative;
   width: min(1280px, 87%);
   margin-inline: auto;
-  height: 125px;
+  height: 65px;
   pointer-events: none;
   overflow: visible;
   z-index: 10;
 }
 
 .zone-about-stack {
-  margin-top: -30px;
-  margin-bottom: -30px;
+  margin-top: -10px;
+  margin-bottom: -10px;
 }
 
 .zone-stack-works {
-  margin-top: -20px;
-  margin-bottom: -20px;
+  margin-top: -10px;
+  margin-bottom: -10px;
 }
 
 .zone-works-journey {
-  margin-top: -20px;
-  margin-bottom: -20px;
+  margin-top: -10px;
+  margin-bottom: -10px;
 }
 
 /* Floating Frosted Glass Micro-Card */
@@ -965,7 +983,11 @@ button {
 
 /* Expertise / Tech Stack Section (STRICTLY PRESERVED AS ORIGINAL) */
 .expertise {
-  padding-top: 80px;
+  padding-top: 0;
+}
+
+.expertise .section-heading {
+  margin-bottom: 24px;
 }
 
 .skill-grid {
@@ -1034,7 +1056,11 @@ button {
 
 /* Works / Projects Section */
 .projects {
-  padding-top: 85px;
+  padding-top: 0;
+}
+
+.projects .section-heading {
+  margin-bottom: 0;
 }
 
 .project-list {
@@ -1587,7 +1613,11 @@ button {
 
 /* Journey Section */
 .journey {
-  padding-top: 90px;
+  padding-top: 0;
+}
+
+.journey .section-heading {
+  margin-bottom: 28px;
 }
 
 .journey-timeline-container {
@@ -1660,14 +1690,295 @@ button {
   color: var(--indigo);
 }
 
+/* =========================================================================
+   SPOTIFY SOUNDTRACK SECTION
+   ========================================================================= */
+
+.spotify-section {
+  position: relative;
+  padding-top: 15px;
+  padding-bottom: 25px;
+  overflow: visible;
+}
+
+.spotify-bg-glow {
+  position: absolute;
+  top: 15%;
+  right: 5%;
+  width: 440px;
+  height: 440px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(184, 196, 255, 0.22) 0%, rgba(220, 226, 255, 0.06) 65%, transparent 85%);
+  filter: blur(50px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.spotify-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(48px, 6vw, 92px);
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.spotify-col-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.spotify-title {
+  font: 500 clamp(36px, 5.2vw, 68px) / 1.05 "Space Grotesk", sans-serif;
+  letter-spacing: -0.065em;
+  color: var(--ink);
+  margin: 0 0 20px;
+}
+
+.spotify-title-line {
+  display: block;
+}
+
+.spotify-title em {
+  font-style: normal;
+  color: var(--indigo);
+}
+
+.spotify-subtitle {
+  font-size: clamp(15px, 1.4vw, 17px);
+  color: #6a6c82;
+  line-height: 1.65;
+  margin: 0 0 32px;
+  max-width: 460px;
+}
+
+.spotify-meta-strip {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.spotify-status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(80, 88, 156, 0.08);
+  border: 1px solid rgba(80, 88, 156, 0.16);
+  border-radius: 20px;
+  font: 700 9.5px "Space Grotesk", monospace;
+  letter-spacing: 1.4px;
+  color: var(--indigo);
+  text-transform: uppercase;
+}
+
+.spotify-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #1db954;
+  box-shadow: 0 0 8px rgba(29, 185, 84, 0.8);
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.35); opacity: 0.65; }
+}
+
+.spotify-listen-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid rgba(80, 88, 156, 0.2);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(80, 88, 156, 0.06);
+  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  text-decoration: none;
+}
+
+.spotify-listen-link:hover {
+  color: #1db954;
+  border-color: rgba(29, 185, 84, 0.45);
+  box-shadow: 0 8px 24px rgba(29, 185, 84, 0.18);
+  transform: translateY(-2px);
+}
+
+.spotify-link-spotify-icon {
+  color: #1db954;
+}
+
+.spotify-listen-link .spotify-link-arrow {
+  transition: transform 0.2s ease;
+}
+
+.spotify-listen-link:hover .spotify-link-arrow {
+  transform: translate(2px, -2px);
+}
+
+/* Right Column: Player Card */
+.spotify-col-right {
+  position: relative;
+}
+
+.spotify-decorative-ring {
+  position: absolute;
+  top: -26px;
+  right: -24px;
+  width: 250px;
+  height: 250px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.spotify-ring-outer {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px dashed rgba(80, 88, 156, 0.22);
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.spotify-ring-inner {
+  position: absolute;
+  inset: 35px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(174, 185, 255, 0.26) 0%, rgba(240, 243, 255, 0.05) 70%, transparent 100%);
+  filter: blur(6px);
+}
+
+.spotify-col-right:hover .spotify-ring-outer {
+  transform: rotate(25deg) scale(1.04);
+}
+
+.spotify-player-card {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(80, 88, 156, 0.16);
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 20px 48px -12px rgba(80, 88, 156, 0.14), 0 4px 16px rgba(29, 33, 56, 0.04);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.spotify-player-card:hover {
+  border-color: rgba(80, 88, 156, 0.28);
+  box-shadow: 0 26px 56px -12px rgba(80, 88, 156, 0.2), 0 6px 20px rgba(29, 33, 56, 0.05);
+}
+
+.spotify-player-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding: 0 4px;
+}
+
+.spotify-player-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 700 10px "Space Grotesk", monospace;
+  letter-spacing: 1.4px;
+  color: var(--ink);
+  text-transform: uppercase;
+}
+
+.spotify-badge-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1db954;
+}
+
+.spotify-soundwave-bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 14px;
+}
+
+.sw-bar {
+  width: 2.5px;
+  background: var(--indigo);
+  border-radius: 2px;
+  opacity: 0.75;
+  animation: soundWave 1.4s ease-in-out infinite alternate;
+}
+
+.sw-bar.b1 { height: 6px; animation-delay: 0.1s; }
+.sw-bar.b2 { height: 13px; animation-delay: 0.35s; }
+.sw-bar.b3 { height: 8px; animation-delay: 0.2s; }
+.sw-bar.b4 { height: 14px; animation-delay: 0.45s; }
+
+@keyframes soundWave {
+  0% { height: 4px; }
+  100% { height: 14px; }
+}
+
+.spotify-iframe-container {
+  position: relative;
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #121212;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.spotify-iframe {
+  display: block;
+  width: 100%;
+  height: 152px;
+  border: 0;
+  border-radius: 14px;
+}
+
+.spotify-player-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding: 0 4px;
+  font-size: 11px;
+}
+
+.spotify-footer-text {
+  color: #8b8d9f;
+  font-weight: 500;
+}
+
+.spotify-footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--indigo);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.spotify-footer-link:hover {
+  color: #1db954;
+  transform: translateX(2px);
+}
+
 /* Contact Section */
 .contact {
   background: var(--indigo-dark);
   color: #fff;
   width: 100%;
   max-width: none;
-  padding: 75px max(6.5%, calc((100% - 1115px) / 2)) 60px;
-  margin-top: 40px;
+  padding: 65px max(6.5%, calc((100% - 1115px) / 2)) 55px;
+  margin-top: 15px;
   position: relative;
   overflow: hidden;
 }
@@ -1697,9 +2008,9 @@ button {
 }
 
 .contact h2 {
-  font: 500 clamp(58px, 9vw, 120px) / 0.9 "Space Grotesk", sans-serif;
+  font: 500 clamp(54px, 8.5vw, 110px) / 0.92 "Space Grotesk", sans-serif;
   letter-spacing: -0.09em;
-  margin: 80px 0 45px;
+  margin: 50px 0 35px;
 }
 
 .contact h2 em {
@@ -2039,8 +2350,13 @@ button {
     font-size: 6px;
   }
 
+  .section-pad {
+    padding-top: 55px;
+    padding-bottom: 50px;
+  }
+
   .section-heading {
-    margin-bottom: 40px;
+    margin-bottom: 24px;
   }
 
   .section-heading h2 {
@@ -2048,7 +2364,8 @@ button {
   }
 
   .section-index {
-    font-size: 8px;
+    font-size: 8.5px;
+    margin-bottom: 10px;
   }
 
   .about-note {
@@ -2182,6 +2499,32 @@ button {
 
   .journey-row h3 {
     font-size: 16px;
+  }
+
+  .spotify-section {
+    padding-top: 60px;
+    padding-bottom: 50px;
+  }
+
+  .spotify-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .spotify-decorative-ring {
+    display: none;
+  }
+
+  .spotify-player-card {
+    padding: 16px;
+  }
+
+  .spotify-title {
+    font-size: clamp(32px, 8vw, 44px);
+  }
+
+  .spotify-meta-strip {
+    gap: 12px;
   }
 
   .contact-top {
